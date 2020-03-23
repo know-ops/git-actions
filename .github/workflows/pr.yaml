@@ -6,10 +6,18 @@ on:
     - master
     paths:
     - 'actions/*.sh'
-    - 'lib/**.bash'
-    - 'tests/**.bats'
+    - 'lib/*.bash'
+    - 'lib/**/*.bash'
+    - 'tests/*.bats'
+    - 'tests/**/*.bats'
 
 jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/labeler@v2
+      with:
+        repo-token: "${{ secrets.GITHUB_TOKEN }}"
   bats:
     runs-on: ubuntu-latest
     steps:

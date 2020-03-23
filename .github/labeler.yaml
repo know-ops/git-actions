@@ -1,0 +1,8 @@
+@bash/action:
+  - 'actions/*.sh'
+
+@bash/test:
+  - '**/*.bats'
+
+@bash/lib:
+  - 'lib/**/*.bash'
