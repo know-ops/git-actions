@@ -1,0 +1,31 @@
+name: pr > bats
+
+on: 
+  pull_request:
+    branches:
+    - master
+    paths:
+    - 'actions/*.sh'
+    - 'lib/**.bash'
+    - 'tests/**.bats'
+
+
+jobs:
+  bats:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup Bats
+      id: setup-bats
+      uses: mig4/setup-bats@v1.0.1
+      with:
+        bats-version: 1.1.0
+    
+    - name: Checkout Source
+      id: checkout
+      uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
+
+    - name: BATS testing
+      id: bats-testing
+      run: bats -r tests/
