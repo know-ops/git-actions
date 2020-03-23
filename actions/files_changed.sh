@@ -18,27 +18,27 @@ main() {
     esac
   done
 
-  FILES=$(git_show_name_only)
+  FILES="$(git_show_name_only)"
   if [[ ! -z "${FILES}" ]]; then
     echo "::set-output name=files::$(echo -n "${FILES}" | tr ' ' ',')"
   fi
 
   if (( $is_mode_created )); then
-    FILES=$(git_show_created_only)
+    FILES="$(git_show_created_only)"
     if [[ ! -z "${FILES}" ]]; then
       echo "::set-output name=created_files::$(echo -n "${FILES}" | tr ' ' ',')"
     fi
   fi
 
   if (( ${is_mode_modified} )); then
-    FILES=$(git_show_modified_only)
+    FILES="$(git_show_modified_only)"
     if [[ ! -z "${FILES}" ]]; then
       echo "::set-output name=modified_files::$(echo -n "${FILES}" | tr ' ' ',')"
     fi
   fi
 
   if (( ${is_mode_deleted} )); then
-    FILES=$(git_show_deleted_only)
+    FILES="$(git_show_deleted_only)"
     if [[ ! -z "${FILES}" ]]; then
       echo "::set-output name=deleted_files::$(echo -n "${FILES}" | tr ' ' ',')"
     fi
