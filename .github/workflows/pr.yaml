@@ -1,4 +1,4 @@
-name: pr > bats
+name: pull-reuqest
 
 on: 
   pull_request:
