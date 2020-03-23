@@ -31,7 +31,7 @@ jobs:
     
     - name: All Files
       id: all-files
-      if: steps.files-changed.outputs.files != ""
+      if: steps.files-changed.outputs.files
       run: |
         echo "Commit Files: ${KO_COMMIT_FILES}"
       env:
