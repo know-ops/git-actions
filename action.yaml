@@ -1,0 +1,19 @@
+name: Git Actions for Github Actions
+author: Know Ops <team@know-ops.com>
+description: Simplified Git Tasks for use with Github Actions workflows.
+
+inputs:
+  git_action:
+    description: Git action to perform
+    required: true
+
+outputs:
+  files:
+    description: "files created, modified & deleted in commit"
+  created_files:
+    description: "files created in commit only"
+  modified_files:
+    description: "files modified in commit only"
+  deleted_files:
+    description: "files deleted in commit only"
+
