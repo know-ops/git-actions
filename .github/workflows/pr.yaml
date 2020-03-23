@@ -1,4 +1,4 @@
-name: pull-request
+name: pr / testing / bash
 
 on: 
   pull_request:
