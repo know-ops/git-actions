@@ -35,4 +35,4 @@ jobs:
       run: |
         echo "Commit Files: ${KO_COMMIT_FILES}"
       env:
-        KO_COMMIT_FILES: ${{ steps.files-changed.outputs.files }}
+        KO_COMMIT_FILES: "${{ steps.files-changed.outputs.files }}"
