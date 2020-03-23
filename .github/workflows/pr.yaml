@@ -9,7 +9,6 @@ on:
     - 'lib/**.bash'
     - 'tests/**.bats'
 
-
 jobs:
   bats:
     runs-on: ubuntu-latest
