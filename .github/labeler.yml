@@ -6,3 +6,9 @@
 
 '@bash/lib':
   - 'lib/**/*.bash'
+
+container:
+  - Dockerfile
+
+'@yaml/action':
+  - 'action.yaml'

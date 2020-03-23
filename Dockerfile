@@ -1,4 +1,4 @@
-FROM alpine/git:v2.14.1
+FROM alpine/git:v2.24.1
 
 LABEL "name"="Git Actions for Github Actions Workflows"
 LABEL "maintainer"="Know Ops"
