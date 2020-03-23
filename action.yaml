@@ -17,3 +17,6 @@ outputs:
   deleted_files:
     description: "files deleted in commit only"
 
+runs:
+  using: "docker"
+  image: "Dockerfile"

@@ -1,0 +1,31 @@
+name: pr / testing / actions
+
+on: 
+  pull_request:
+    branches:
+    - master
+    paths:
+    - 'action.yaml'
+    - 'Dockerfile'
+    - 'entrypoint.sh'
+    - 'actions/*.sh'
+    - 'lib/*.bash'
+    - 'lib/**/*.bash'
+
+jobs:
+  files_changed:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Source
+      id: checkout
+      uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
+    
+    - name: Files Changed
+      id: files-changed
+      uses: ./
+      with:
+        git_action: files_changed
+    
