@@ -14,6 +14,7 @@ on:
 jobs:
   bats:
     runs-on: ubuntu-latest
+
     steps:
     - name: Setup BATS
       id: setup-bats
@@ -36,3 +37,20 @@ jobs:
     - name: BATS testing
       id: bats-testing
       run: bats -r tests/
+  
+  files_changed:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Source
+      id: checkout
+      uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
+    
+    - name: Files Changed
+      id: files-changed
+      uses: ./
+      with:
+        git_action: files_changed
+    
