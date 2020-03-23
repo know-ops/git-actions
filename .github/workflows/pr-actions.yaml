@@ -29,3 +29,10 @@ jobs:
       with:
         git_action: files_changed
     
+    - name: All Files
+      id: all-files
+      if: steps.files-changed.outputs.files != ""
+      run: |
+        echo "Commit Files: ${KO_COMMIT_FILES}"
+      env:
+        KO_COMMIT_FILES: ${{ steps.files-changed.outputs.files }}
