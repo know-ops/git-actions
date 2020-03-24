@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 
+. $(dirname ${BASH_SOURCE})/../utils/array.bash
+
 git_show_name_only() {
   git show --pretty="" --name-only
 }
 
 git_show_name_status() {
-  git show --pretty="" --name-status | grep -E "${1}" | awk '{ print $2 }'
+  git show --pretty="" --name-status | arrayFilterRegexp "${1}" | awk '{ print $2 }'
 }
 
 git_show_created_only() {

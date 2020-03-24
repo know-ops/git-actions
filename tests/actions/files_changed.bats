@@ -82,3 +82,21 @@ teardown() {
   assert_output --regexp ".*::set-output name=modified_files::.*${TEST_FILE}.*"
   assert_output --regexp ".*::set-output name=created_files::.*${TEST_FILE2}.*"
 }
+
+@test "actions > files_changed > multiple files, filter to .*test.bats.*" {
+  TEST_FILE2="test2.bats"
+
+  echo "change #1" >${TEST_FILE}
+  touch ${TEST_FILE2}
+
+  git_commit "${COMMIT_MSG}; added ${TEST_FILE2}"
+
+  export INPUT_GIT_FILTER=".*${TEST_FILE}.*"
+
+  run ${ORGINAL_DIR}/actions/files_changed.sh --created --modified
+
+  assert_output --regexp ".*::set-output name=files::.*${TEST_FILE}.*"
+  refute_output --regexp ".*::set-output name=files::.*${TEST_FILE2}.*"
+  assert_output --regexp ".*::set-output name=modified_files::.*${TEST_FILE}.*"
+  refute_output --regexp ".*::set-output name=created_files::.*${TEST_FILE2}.*"
+}

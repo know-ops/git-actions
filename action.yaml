@@ -15,6 +15,9 @@ inputs:
   git_deleted:
     description: Show deleted files in a separate list
     default: false
+  git_filter:
+    description: Regex to filter the files found by
+    default: false
 
 outputs:
   files:

@@ -21,13 +21,3 @@ load ../lib/tests/helpers
   assert_success
   assert_output --partial "::set-output name=files::"
 }
-
-@test "entrypoint > files and created_files" {
-  local INPUT_GIT_ACTION="files_changed"
-
-  run ./entrypoint.sh "${INPUT_GIT_ACTION}" --created
-
-  assert_success
-  assert_output --partial "::set-output name=files::"
-  assert_output --partial "::set-output name=created_files::"
-}
