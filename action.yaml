@@ -1,6 +1,9 @@
 name: Git Actions for Github Actions
 author: Know Ops <team@know-ops.com>
 description: Simplified Git Tasks for use with Github Actions workflows.
+branding:
+  color: purple
+  icon: terminal
 
 inputs:
   git_action:
@@ -31,3 +34,4 @@ outputs:
 runs:
   using: "docker"
   image: "Dockerfile"
+
