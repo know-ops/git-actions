@@ -17,7 +17,6 @@ inputs:
     default: false
   git_filter:
     description: Regex to filter the files found by
-    default: false
 
 outputs:
   files:
