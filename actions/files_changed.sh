@@ -22,10 +22,11 @@ main() {
   fi
 
   if [ ! -z "${INPUT_GIT_FILTER}" ]; then
+    echo "::debug file=files_changed.sh,line=25::\${INPUT_GIT_FILTER}=${INPUT_GIT_FILTER}"
     filter_regexp="${INPUT_GIT_FILTER}"
   fi
 
-  echo "::debug file=files_changed.sh,line10::handle options"
+  echo "::debug file=files_changed.sh,line=29::handle options"
   while (( $# > 0 )); do
     case "$1" in
       -c|--created) is_mode_created=1; shift ;;
