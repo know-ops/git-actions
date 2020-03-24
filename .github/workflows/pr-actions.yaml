@@ -44,7 +44,7 @@ jobs:
       id: created-files
       if: steps.files-changed.outputs.created_files
       run: |
-        echo "Commit Files: ${KO_COMMIT_FILES}"
+        echo "Created Files: ${KO_COMMIT_FILES}"
       env:
         KO_COMMIT_FILES: "${{ steps.files-changed.outputs.created_files }}"
 
@@ -52,7 +52,7 @@ jobs:
       id: modified-files
       if: steps.files-changed.outputs.modified_files
       run: |
-        echo "Commit Files: ${KO_COMMIT_FILES}"
+        echo "Modified Files: ${KO_COMMIT_FILES}"
       env:
         KO_COMMIT_FILES: "${{ steps.files-changed.outputs.modified_files }}"
 
@@ -60,6 +60,6 @@ jobs:
       id: deleted-files
       if: steps.files-changed.outputs.deleted_files
       run: |
-        echo "Commit Files: ${KO_COMMIT_FILES}"
+        echo "Deleted Files: ${KO_COMMIT_FILES}"
       env:
         KO_COMMIT_FILES: "${{ steps.files-changed.outputs.deleted_files }}"
