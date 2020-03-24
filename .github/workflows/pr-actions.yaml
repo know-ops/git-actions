@@ -28,6 +28,9 @@ jobs:
       uses: ./
       with:
         git_action: files_changed
+        git_created: "true"
+        git_modified: "true"
+        git_deleted: "true"
     
     - name: All Files
       id: all-files
@@ -36,3 +39,27 @@ jobs:
         echo "Commit Files: ${KO_COMMIT_FILES}"
       env:
         KO_COMMIT_FILES: "${{ steps.files-changed.outputs.files }}"
+
+    - name: Created Files
+      id: created-files
+      if: steps.files-changed.outputs.created_files
+      run: |
+        echo "Commit Files: ${KO_COMMIT_FILES}"
+      env:
+        KO_COMMIT_FILES: "${{ steps.files-changed.outputs.created_files }}"
+
+    - name: Modified Files
+      id: modified-files
+      if: steps.files-changed.outputs.modified_files
+      run: |
+        echo "Commit Files: ${KO_COMMIT_FILES}"
+      env:
+        KO_COMMIT_FILES: "${{ steps.files-changed.outputs.modified_files }}"
+
+    - name: Deleted Files
+      id: deleted-files
+      if: steps.files-changed.outputs.deleted_files
+      run: |
+        echo "Commit Files: ${KO_COMMIT_FILES}"
+      env:
+        KO_COMMIT_FILES: "${{ steps.files-changed.outputs.deleted_files }}"

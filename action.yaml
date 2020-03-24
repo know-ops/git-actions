@@ -6,6 +6,15 @@ inputs:
   git_action:
     description: Git action to perform
     required: true
+  git_created:
+    description: Show created files in a separate list
+    default: false
+  git_modified:
+    description: Show modified files in a separate list
+    default: false
+  git_deleted:
+    description: Show deleted files in a separate list
+    default: false
 
 outputs:
   files:

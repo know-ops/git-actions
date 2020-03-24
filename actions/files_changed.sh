@@ -12,6 +12,18 @@ main() {
   local -i is_mode_modified=0
   local -i is_mode_deleted=0
 
+  if [ "${INPUT_GIT_CREATED}" = "true" ]; then
+    is_mode_created=1
+  fi
+
+  if [ "${INPUT_GIT_MODIFIED}" = "true" ]; then
+    is_mode_modified=1
+  fi
+
+  if [ "${INPUT_GIT_DELETED}" = "true" ]; then
+    is_mode_deleted=1
+  fi
+
   echo "::debug file=files_changed.sh,line10::handle options"
   while (( $# > 0 )); do
     case "$1" in
