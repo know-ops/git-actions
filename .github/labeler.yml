@@ -12,3 +12,6 @@ container:
 
 '@yaml/action':
   - 'action.yaml'
+
+'@yaml/workflow':
+  - '.github/workflows/*.yaml'
