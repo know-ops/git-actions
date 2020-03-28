@@ -1,0 +1,65 @@
+name: pr / testing / actions
+
+on: 
+  pull_request:
+    branches:
+    - master
+    paths:
+    - 'action.yaml'
+    - 'Dockerfile'
+    - 'entrypoint.sh'
+    - 'actions/*.sh'
+    - 'lib/*.bash'
+    - 'lib/**/*.bash'
+
+jobs:
+  files_changed:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Source
+      id: checkout
+      uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
+    
+    - name: Files Changed
+      id: files-changed
+      uses: ./
+      with:
+        git_action: files_changed
+        git_created: "true"
+        git_modified: "true"
+        git_deleted: "true"
+    
+    - name: All Files
+      id: all-files
+      if: steps.files-changed.outputs.files
+      run: |
+        echo "Commit Files: ${KO_COMMIT_FILES}"
+      env:
+        KO_COMMIT_FILES: "${{ steps.files-changed.outputs.files }}"
+
+    - name: Created Files
+      id: created-files
+      if: steps.files-changed.outputs.created_files
+      run: |
+        echo "Created Files: ${KO_COMMIT_FILES}"
+      env:
+        KO_COMMIT_FILES: "${{ steps.files-changed.outputs.created_files }}"
+
+    - name: Modified Files
+      id: modified-files
+      if: steps.files-changed.outputs.modified_files
+      run: |
+        echo "Modified Files: ${KO_COMMIT_FILES}"
+      env:
+        KO_COMMIT_FILES: "${{ steps.files-changed.outputs.modified_files }}"
+
+    - name: Deleted Files
+      id: deleted-files
+      if: steps.files-changed.outputs.deleted_files
+      run: |
+        echo "Deleted Files: ${KO_COMMIT_FILES}"
+      env:
+        KO_COMMIT_FILES: "${{ steps.files-changed.outputs.deleted_files }}"

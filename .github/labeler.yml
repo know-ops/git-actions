@@ -1,0 +1,17 @@
+'@bash/action':
+  - 'actions/*.sh'
+
+'@bash/test':
+  - '**/*.bats'
+
+'@bash/lib':
+  - 'lib/**/*.bash'
+
+container:
+  - Dockerfile
+
+'@yaml/action':
+  - 'action.yaml'
+
+'@yaml/workflow':
+  - '.github/workflows/*.yaml'

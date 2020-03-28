@@ -1,0 +1,16 @@
+name: pr > merge > release
+
+on:
+  pull_request:
+    types: [ closed ] 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: version
+        uses: K-Phoen/semver-release-action@v1.3.1
+        with:
+          release_branch: master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
