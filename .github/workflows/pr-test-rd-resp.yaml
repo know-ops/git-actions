@@ -10,22 +10,24 @@ jobs:
         id: parse-actions
         run: |
           echo "::debug filename=pr-test-rd-resp.yaml,line=12::KO_ACTIONS=$(echo -n "${KO_ACTIONS}")"
-          echo "::debug filename=pr-test-rd-resp.yaml,line=13::$(echo -n "${KO_ACTIONS}" | jq)"
+
+          KO_ACTIONS=$(echo -n "${KO_ACTIONS}")
+          echo "::debug filename=pr-test-rd-resp.yaml,line=15::$(echo -n "${KO_ACTIONS}" | jq .)"
 
           KO_ALL=$(echo -n "${KO_ACTIONS}" | jq .all)
-          echo "::debug filename=pr-test-rd-resp.yaml,line=12::KO_ALL=${KO_ALL}"
+          echo "::debug filename=pr-test-rd-resp.yaml,line=18::KO_ALL=${KO_ALL}"
           echo "::set-output name=all::${KO_ALL}"
 
           KO_NEW=$(echo -n "${KO_ACTIONS}" | jq .new)
-          echo "::debug filename=pr-test-rd-resp.yaml,line=12::KO_NEW=${KO_NEW}"
+          echo "::debug filename=pr-test-rd-resp.yaml,line=22::KO_NEW=${KO_NEW}"
           echo "::set-output name=new::${KO_NEW}"
 
           KO_UPDATED=$(echo -n "${KO_ACTIONS}" | jq .updated)
-          echo "::debug filename=pr-test-rd-resp.yaml,line=12::KO_UPDATED=${KO_UPDATED}"
+          echo "::debug filename=pr-test-rd-resp.yaml,line=26::KO_UPDATED=${KO_UPDATED}"
           echo "::set-output name=updated::${KO_UPDATED}"
 
           KO_REMOVED=$(echo -n "${KO_ACTIONS}" | jq .removed)
-          echo "::debug filename=pr-test-rd-resp.yaml,line=12::KO_DELETED=${KO_DELETED}"
+          echo "::debug filename=pr-test-rd-resp.yaml,line=30::KO_DELETED=${KO_DELETED}"
           echo "::set-output name=removed::${KO_REMOVED}"
         env:
           KO_ACTIONS: ${{ toJson(github.event.client_payload.actions) }}
