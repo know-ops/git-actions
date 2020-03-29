@@ -6,34 +6,43 @@ jobs:
   actions:
     runs-on: ubuntu-latest
     steps:
+      - name: Parse Actions
+        id: parse-actions
+        run: |
+          echo "::set-output name=all::$(echo -n ${ko_actions} | jq .all)"
+          echo "::set-output name=all::$(echo -n ${ko_actions} | jq .new)"
+          echo "::set-output name=all::$(echo -n ${ko_actions} | jq .updated)"
+          echo "::set-output name=all::$(echo -n ${ko_actions} | jq .removed)"
+        env:
+          ko_actions: ${{ toJson(github.event.client_payload.actions )}
       - name: All Actions
         id: all-actions
-        if: github.event.client_payload.actions.all
+        if: steps.parse-actions.outputs.all
         run: |
           echo "All Impacted Actions: ${KO_ACTIONS}"
         env:
-          KO_ACTIONS: "${{ github.event.client_payload.actions.all }}"
+          KO_ACTIONS: "${{ steps.parse-actions.outputs.all }}"
 
       - name: New Actions
         id: new-actions
-        if: github.event.client_payload.actions.new
+        if: steps.parse-actions.outputs.new
         run: |
           echo "New Actions: ${KO_ACTIONS}"
         env:
-          KO_ACTIONS: "${{ github.event.client_payload.actions.new }}"
+          KO_ACTIONS: "${{ steps.parse-actions.outputs.new }}"
 
       - name: Updated Actions
         id: updated-actions
-        if: github.event.client_payload.actions.updated
+        if: steps.parse-actions.outputs.updated
         run: |
           echo "Updated Actions: ${KO_ACTIONS}"
         env:
-          KO_ACTIONS: "${{ github.event.client_payload.actions.updated }}"
+          KO_ACTIONS: "${{ steps.parse-actions.outputs.updated }}"
 
       - name: Removed Actions
         id: removed-actions
-        if: github.event.client_payload.actions.removed
+        if: steps.parse-actions.outputs.removed
         run: |
           echo "Removed Actions: ${KO_ACTIONS}"
         env:
-          KO_ACTIONS: "${{ github.event.client_payload.actions.removed }}"
+          KO_ACTIONS: "${{ steps.parse-actions.outputs.removed }}"
