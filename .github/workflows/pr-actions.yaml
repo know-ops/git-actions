@@ -63,7 +63,7 @@ jobs:
 
         echo "::set-output name=actions::{ \"all\": \"${KO_ALL}", \"new\": \"${KO_NEW}\", \"updated\": \"${KO_UPDATED}\", \"removed\": \"${KO_REMOVED}\" }"
 
-      with:
+      env:
         ko_files: ${{ steps.files-changed.outputs.files }}
         ko_created: ${{ steps.files-changed.outputs.created_files }}
         ko_modified: ${{ steps.files-changed.outputs.modified_files }}
@@ -77,4 +77,3 @@ jobs:
         github_action: repository_dispatch
         github_event_type: dependency_update_workflow
         github_client_payload: '{"repo": "${{ github.repository }}", "ref": "${{ github.ref }}", "actions": ${{ toJson(steps.f2a.outputs.actions) }} }'
-
