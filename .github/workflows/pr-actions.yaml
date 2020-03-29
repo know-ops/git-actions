@@ -40,7 +40,7 @@ jobs:
         file2Action() {
           echo $1 | tr ' ' '\n' \
           | awk '/actions\/.*\.sh/ { print }' \
-          | sed -e 's/.*actions\/\(.*\).sh/\1/g'
+          | sed -e 's/.*actions\/\(.*\).sh/\1/g' \
           | tr '\n' ' '
         }
 
