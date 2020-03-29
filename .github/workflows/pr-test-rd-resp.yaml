@@ -27,7 +27,7 @@ jobs:
           echo "::set-output name=updated::${KO_UPDATED}"
 
           KO_REMOVED=$(echo -n "${KO_ACTIONS}" | jq .removed)
-          echo "::debug filename=pr-test-rd-resp.yaml,line=30::KO_DELETED=${KO_DELETED}"
+          echo "::debug filename=pr-test-rd-resp.yaml,line=30::KO_REMOVED=${KO_REMOVED}"
           echo "::set-output name=removed::${KO_REMOVED}"
         env:
           KO_ACTIONS: ${{ toJson(github.event.client_payload.actions) }}
