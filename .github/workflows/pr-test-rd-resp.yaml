@@ -12,7 +12,7 @@ jobs:
         run: |
           echo "All Impacted Actions: ${KO_ACTIONS}"
         env:
-          KO_ALL: "${{ github.event.client_payload.actions.all }}"
+          KO_ACTIONS: "${{ github.event.client_payload.actions.all }}"
 
       - name: New Actions
         id: new-actions

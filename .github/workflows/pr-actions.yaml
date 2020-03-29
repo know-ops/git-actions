@@ -11,6 +11,7 @@ on:
     - 'actions/*.sh'
     - 'lib/*.bash'
     - 'lib/**/*.bash'
+    - '.github/workflows/pr-actions.yaml'
 
 jobs:
   files_changed:
@@ -31,35 +32,49 @@ jobs:
         git_created: "true"
         git_modified: "true"
         git_deleted: "true"
-    
-    - name: All Files
-      id: all-files
+
+    - name: File to Action
+      id: f2a
       if: steps.files-changed.outputs.files
       run: |
-        echo "Commit Files: ${KO_COMMIT_FILES}"
-      env:
-        KO_COMMIT_FILES: "${{ steps.files-changed.outputs.files }}"
+        file2Action() {
+          echo $1 | tr ' ' '\n' \
+          | awk '/actions\/.*\.sh/ { print }' \
+          | sed -e 's/.*actions\/\(.*\).sh/\1/g'
+          | tr '\n' ' '
+        }
 
-    - name: Created Files
-      id: created-files
-      if: steps.files-changed.outputs.created_files
-      run: |
-        echo "Created Files: ${KO_COMMIT_FILES}"
-      env:
-        KO_COMMIT_FILES: "${{ steps.files-changed.outputs.created_files }}"
+        export KO_ALL=$(file2Action "${ko_files}")
 
-    - name: Modified Files
-      id: modified-files
-      if: steps.files-changed.outputs.modified_files
-      run: |
-        echo "Modified Files: ${KO_COMMIT_FILES}"
-      env:
-        KO_COMMIT_FILES: "${{ steps.files-changed.outputs.modified_files }}"
+        export KO_NEW=""
+        if (${ko_created}); then
+          export NEW=$(file2Action "${ko_created}")
+        fi
 
-    - name: Deleted Files
-      id: deleted-files
-      if: steps.files-changed.outputs.deleted_files
-      run: |
-        echo "Deleted Files: ${KO_COMMIT_FILES}"
-      env:
-        KO_COMMIT_FILES: "${{ steps.files-changed.outputs.deleted_files }}"
+        export KO_UPDATED=""
+        if (${ko_updated}); then
+          export UPDATED=$(file2Action "${ko_modified}")
+        fi
+
+        export KO_REMOVED=""
+        if (${ko_deleted}); then
+          export REMOVED=$(file2Action "${ko_deleted}")
+        fi
+
+        echo "::set-output name=actions::{ \"all\": \"${KO_ALL}", \"new\": \"${KO_NEW}\", \"updated\": \"${KO_UPDATED}\", \"removed\": \"${KO_REMOVED}\" }"
+
+      with:
+        ko_files: ${{ steps.files-changed.outputs.files }}
+        ko_created: ${{ steps.files-changed.outputs.created_files }}
+        ko_modified: ${{ steps.files-changed.outputs.modified_files }}
+        ko_deleted: ${{ steps.files-changed-outputs.deleted_files }}
+
+    - name: Repositiory Dispatch
+      id: repository-dispatch
+      uses: know-ops/github-actions@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_action: repository_dispatch
+        github_event_type: dependency_update_workflow
+        github_client_payload: '{"repo": "${{ github.repository }}", "ref": "${{ github.ref }}", "actions": ${{ toJson(steps.f2a.outputs.actions) }} }'
+
