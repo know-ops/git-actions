@@ -61,7 +61,7 @@ jobs:
           export REMOVED=$(file2Action "${ko_deleted}")
         fi
 
-        echo "::set-output name=actions::{ \"all\": \"${KO_ALL}", \"new\": \"${KO_NEW}\", \"updated\": \"${KO_UPDATED}\", \"removed\": \"${KO_REMOVED}\" }"
+        echo "::set-output name=actions::{ 'all': '${KO_ALL}", 'new': '${KO_NEW}', 'updated': '${KO_UPDATED}', 'removed': '${KO_REMOVED}' }"
 
       env:
         ko_files: ${{ steps.files-changed.outputs.files }}
