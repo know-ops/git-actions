@@ -1,0 +1,39 @@
+name: pr / results / files_changed / actions
+on:
+  repository_dispatch:
+    types: [ dependency_update_workflow ]
+jobs:
+  actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: All Actions
+        id: all-actions
+        if: github.event.client_payload.actions.all
+        run: |
+          echo "All Impacted Actions: ${KO_ACTIONS}"
+        env:
+          KO_ALL: "${{ github.event.client_payload.actions.all }}"
+
+      - name: New Actions
+        id: new-actions
+        if: github.event.client_payload.actions.new
+        run: |
+          echo "New Actions: ${KO_ACTIONS}"
+        env:
+          KO_ACTIONS: "${{ github.event.client_payload.actions.new }}"
+
+      - name: Updated Actions
+        id: updated-actions
+        if: github.event.client_payload.actions.updated
+        run: |
+          echo "Updated Actions: ${KO_ACTIONS}"
+        env:
+          KO_ACTIONS: "${{ github.event.client_payload.actions.updated }}"
+
+      - name: Removed Actions
+        id: removed-actions
+        if: github.event.client_payload.actions.removed
+        run: |
+          echo "Removed Actions: ${KO_ACTIONS}"
+        env:
+          KO_ACTIONS: "${{ github.event.client_payload.actions.removed }}"
