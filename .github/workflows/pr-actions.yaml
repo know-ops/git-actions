@@ -47,17 +47,17 @@ jobs:
         export KO_ALL=$(file2Action "${ko_files}")
 
         export KO_NEW=""
-        if (${ko_created}); then
+        if [ -n "${ko_created}" ]; then
           export NEW=$(file2Action "${ko_created}")
         fi
 
         export KO_UPDATED=""
-        if (${ko_updated}); then
+        if [ -n "${ko_updated}" ]; then
           export UPDATED=$(file2Action "${ko_modified}")
         fi
 
         export KO_REMOVED=""
-        if (${ko_deleted}); then
+        if [ -n "${ko_deleted}" ]; then
           export REMOVED=$(file2Action "${ko_deleted}")
         fi
 
