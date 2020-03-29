@@ -9,11 +9,11 @@ jobs:
       - name: Parse Actions
         id: parse-actions
         run: |
-          echo "::debug filename=pr-test-rd-resp.yaml,line=12::${KO_ACTIONS}"
+          echo "::debug filename=pr-test-rd-resp.yaml,line=12::$(echo -n "${KO_ACTIONS}" | jq)"
           echo "::set-output name=all::$(echo -n "${KO_ACTIONS}" | jq .all)"
-          echo "::set-output name=all::$(echo -n "${KO_ACTIONS}" | jq .new)"
-          echo "::set-output name=all::$(echo -n "${KO_ACTIONS}" | jq .updated)"
-          echo "::set-output name=all::$(echo -n "${KO_ACTIONS}" | jq .removed)"
+          echo "::set-output name=new::$(echo -n "${KO_ACTIONS}" | jq .new)"
+          echo "::set-output name=updated::$(echo -n "${KO_ACTIONS}" | jq .updated)"
+          echo "::set-output name=removed::$(echo -n "${KO_ACTIONS}" | jq .removed)"
         env:
           KO_ACTIONS: ${{ toJson(github.event.client_payload.actions) }}
       - name: All Actions
