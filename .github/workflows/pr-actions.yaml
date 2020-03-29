@@ -48,17 +48,17 @@ jobs:
 
         export KO_NEW=""
         if [ -n "${ko_created}" ]; then
-          export NEW=$(file2Action "${ko_created}")
+          export KO_NEW=$(file2Action "${ko_created}")
         fi
 
         export KO_UPDATED=""
         if [ -n "${ko_updated}" ]; then
-          export UPDATED=$(file2Action "${ko_modified}")
+          export KO_UPDATED=$(file2Action "${ko_modified}")
         fi
 
         export KO_REMOVED=""
         if [ -n "${ko_deleted}" ]; then
-          export REMOVED=$(file2Action "${ko_deleted}")
+          export KO_REMOVED=$(file2Action "${ko_deleted}")
         fi
 
         echo "::set-output name=actions::{ \"all\": \"${KO_ALL}\", \"new\": \"${KO_NEW}\", \"updated\": \"${KO_UPDATED}\", \"removed\": \"${KO_REMOVED}\" }"
