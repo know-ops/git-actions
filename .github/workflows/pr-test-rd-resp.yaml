@@ -14,7 +14,7 @@ jobs:
           echo "::set-output name=all::$(echo -n ${ko_actions} | jq .updated)"
           echo "::set-output name=all::$(echo -n ${ko_actions} | jq .removed)"
         env:
-          ko_actions: ${{ toJson(github.event.client_payload.actions )}
+          ko_actions: ${{ toJson(github.event.client_payload.actions) }}
       - name: All Actions
         id: all-actions
         if: steps.parse-actions.outputs.all
