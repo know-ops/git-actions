@@ -76,4 +76,4 @@ jobs:
         github_token: ${{ secrets.GITHUB_ACTIONS_TOKEN }}
         github_action: repository_dispatch
         github_event_type: dependency_update_workflow
-        github_client_payload: '{"repo": "${{ github.repository }}", "ref": "${{ github.ref }}", "actions": ${{ toJson(steps.f2a.outputs.actions) }} }'
+        github_client_payload: '{"repo": "${{ github.repository }}", "ref": "${{ github.ref }}", "actions": ${{ steps.f2a.outputs.actions }} }'
