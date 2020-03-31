@@ -1,9 +1,9 @@
-name: pr / results / files_changed / actions
+name: pr / results / files_changed
 on:
   repository_dispatch:
     types: [ dependency_update_workflow ]
 jobs:
-  actions:
+  action:
     runs-on: ubuntu-latest
     steps:
       - name: Parse Actions
@@ -12,7 +12,7 @@ jobs:
           echo "::debug filename=pr-test-rd-resp.yaml,line=12::KO_ACTIONS=$(echo -n "${KO_ACTIONS}")"
 
           KO_ACTIONS=$(echo -n "${KO_ACTIONS}")
-          echo "::debug filename=pr-test-rd-resp.yaml,line=15::$(echo -n "${KO_ACTIONS}" | jq .)"
+          echo "::debug filename=pr-test-rd-resp.yaml,line=15::$(echo -n "${KO_ACTIONS}" | jq -c -r .)"
 
           KO_ALL=$(echo -n "${KO_ACTIONS}" | jq -r .all)
           echo "::debug filename=pr-test-rd-resp.yaml,line=18::KO_ALL=${KO_ALL}"
