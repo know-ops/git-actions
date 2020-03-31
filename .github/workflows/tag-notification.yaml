@@ -65,7 +65,7 @@ jobs:
           GITHUB_REF: ${{ github.ref }}
 
       - uses: know-ops/github-actions@master
-        if: steps.actions-changed.actions
+        if: steps.actions-changed.outputs.actions
         with:
           github_action: repository_dispatch
           github_repos: "know-ops/github-actions:${{ secrets.GITHUB_ACTIONS_TOKEN }}"
