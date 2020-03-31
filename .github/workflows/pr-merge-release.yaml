@@ -1,8 +1,19 @@
-name: pr > merge > release
+name: pr / merge / release
 
 on:
   pull_request:
-    types: [ closed ] 
+    types: [ closed ]
+    branches:
+      - master
+    paths:
+    - 'action.yaml'
+    - 'Dockerfile'
+    - 'entrypoint.sh'
+    - 'actions/*.sh'
+    - 'lib/*.bash'
+    - 'lib/**/*.bash'
+    - 'tests/*.bats'
+    - 'tests/**/*.bats'
 
 jobs:
   build:

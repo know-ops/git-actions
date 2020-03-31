@@ -1,0 +1,73 @@
+name: tag / notification / repository_dispatch
+
+on:
+  release:
+    types: [ published ]
+
+jobs:
+  repository_dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Sources
+        id: checkout
+        uses: actions/checkout@v2
+
+      - name: Determine File Changes
+        id: files-changed
+        uses: know-ops/git-actions@v0.0.1
+        with:
+          git_action: files_changed
+          git_created: "true"
+          git_modified: "true"
+          git_deleted: "true"
+
+      - name: Determine Actions Changed
+        id: actions-changed
+        if: steps.files-changed.outputs.files
+        run: |
+          file2Action() {
+            echo $1 | tr ' ' '\n' \
+            | awk '/actions\/.*\.sh/ { print }' \
+            | sed -e 's/.*actions\/\(.*\).sh/\1/g' \
+            | tr '\n' ' '
+          }
+
+          export KO_ALL=$(file2Action "${ko_files}")
+
+          export KO_NEW=""
+          if [ -n "${ko_created}" ]; then
+            export KO_NEW=$(file2Action "${ko_created}")
+          fi
+
+          export KO_UPDATED=""
+          if [ -n "${ko_updated}" ]; then
+            export KO_UPDATED=$(file2Action "${ko_modified}")
+          fi
+
+          export KO_REMOVED=""
+          if [ -n "${ko_deleted}" ]; then
+            export KO_REMOVED=$(file2Action "${ko_deleted}")
+          fi
+
+          if [ -n "${KO_ALL}" ]; then
+            echo "::set-output name=actions::{ \"all\": \"${KO_ALL}\", \"new\": \"${KO_NEW}\", \"updated\": \"${KO_UPDATED}\", \"removed\": \"${KO_REMOVED}\" }"
+          else
+            echo "::set-output name=actions::"
+          fi
+
+          echo "::set-output name=tag::$(echo "${GITHUB_REF}"" | sed -e 's/.*tags\/\(v.*\)/\1/'"
+
+        env:
+          ko_files: ${{ steps.files-changed.outputs.files }}
+          ko_created: ${{ steps.files-changed.outputs.created_files }}
+          ko_modified: ${{ steps.files-changed.outputs.modified_files }}
+          ko_deleted: ${{ steps.files-changed-outputs.deleted_files }}
+          GITHUB_REF: ${{ github.ref }}
+
+      - uses: know-ops/github-actions
+        if: steps.actions-changed.actions
+        with:
+          github_action: repository_dispatch
+          github_repos: "know-ops/github-actions:${{ secrets.GITHUB_ACTIONS_TOKEN }}"
+          github_event_type: "despendency_update_workflow"
+          github_client_payload: '{"repo": "${{ github.repository }}", "tag": "${{ steps.f2a.outputs.tag }}", "actions": ${{ steps.f2a.outputs.actions }} }'
