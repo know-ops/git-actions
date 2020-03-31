@@ -64,7 +64,7 @@ jobs:
           ko_deleted: ${{ steps.files-changed-outputs.deleted_files }}
           GITHUB_REF: ${{ github.ref }}
 
-      - uses: know-ops/github-actions
+      - uses: know-ops/github-actions@master
         if: steps.actions-changed.actions
         with:
           github_action: repository_dispatch
