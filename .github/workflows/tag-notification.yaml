@@ -69,5 +69,5 @@ jobs:
         with:
           github_action: repository_dispatch
           github_repos: "know-ops/github-actions:${{ secrets.GITHUB_ACTIONS_TOKEN }}"
-          github_event_type: "despendency_update_workflow"
-          github_client_payload: '{"repo": "${{ github.repository }}", "tag": "${{ steps.f2a.outputs.tag }}", "actions": ${{ steps.f2a.outputs.actions }} }'
+          github_event_type: "dependency_update_workflow"
+          github_client_payload: '{"repo": "${{ github.repository }}", "tag": "${{ steps.actions-changed.outputs.tag }}", "actions": ${{ toJson(steps.actions-changed.outputs.actions) }} }'
