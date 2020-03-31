@@ -55,7 +55,7 @@ jobs:
             echo "::set-output name=actions::"
           fi
 
-          echo "::set-output name=tag::$(echo "${GITHUB_REF}"" | sed -e 's/.*tags\/\(v.*\)/\1/')"
+          echo "::set-output name=tag::$(echo "${GITHUB_REF}" | sed -e 's/.*tags\/\(v.*\)/\1/')"
 
         env:
           ko_files: ${{ steps.files-changed.outputs.files }}
